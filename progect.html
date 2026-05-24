@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heart Landing</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000;
+      color: #ff3366;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .header {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 18px;
+      letter-spacing: 3px;
+      color: #ff3366;
+      text-shadow: 0 0 10px #ff3366;
+    }
+
+    .status {
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 16px;
+      text-align: center;
+      width: 90%;
+    }
+
+    .heart-container {
+      position: relative;
+      width: 90vw;
+      max-width: 520px;
+      height: 480px;
+      margin: 0 auto;
+    }
+
+    .word {
+      position: absolute;
+      color: #ff4d6d;
+      font-size: 17px;           /* увеличил размер */
+      text-shadow: 0 0 10px #ff6699;
+      white-space: nowrap;
+      opacity: 0;
+      user-select: none;
+      font-weight: 500;
+    }
+
+    .center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 52px;
+      font-weight: bold;
+      color: #ffffff;
+      text-shadow: 0 0 30px #ff3366,
+                   0 0 60px #ff3366,
+                   0 0 80px #ff3366;
+      z-index: 10;
+      opacity: 0;
+      animation: glow 2.5s forwards 4.2s;
+    }
+
+    @keyframes glow {
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 480px) {
+      .center-text { font-size: 42px; }
+      .heart-container { max-width: 420px; height: 420px; }
+      .word { font-size: 14.5px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">HEART LANDING</div>
+  <div class="status" id="status"></div>
+  
+  <div class="heart-container" id="heart"></div>
+  <div class="center-text">Сашенька</div>
+
+  <script>
+    const statusEl = document.getElementById('status');
+    const heartEl = document.getElementById('heart');
+
+    const messages = [
+      "[system] Initializing heart.PROTOCOL_v2.0...",
+      "> One encrypted package found for you.",
+      "[status] DECRYPTING MESSAGE..."
+    ];
+
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < messages.length) {
+        statusEl.textContent = messages[i];
+        i++;
+      } else {
+        clearInterval(interval);
+        createHeart();
+      }
+    }, 1300);
+
+    function createHeart() {
+      const phrase = "я люблю тебя";
+      const words = Array(46).fill(phrase);   // 38 полных фраз
+
+      const centerX = 190;
+      const centerY = 240;
+
+      heartEl.innerHTML = '';
+
+      words.forEach((word, index) => {
+        const t = (index / words.length) * Math.PI * 2 + 0.15;
+
+        let x = 16 * Math.pow(Math.sin(t), 3);
+        let y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+
+        const scale = 16.8;
+        x = centerX + x * scale;
+        y = centerY - y * scale * 0.85;
+
+        const el = document.createElement('div');
+        el.className = 'word';
+        el.textContent = word;
+        el.style.left = `${x}px`;
+        el.style.top = `${y}px`;
+        
+        const delay = index * 12;   // большая задержка
+        el.style.animation = `fadeIn ${2 + Math.random() * 1.5}s forwards`;
+        el.style.animationDelay = `${delay}ms`;
+        
+        heartEl.appendChild(el);
+      });
+    }
+
+    const style = document.createElement('style');
+    style.innerHTML = `@keyframes fadeIn { to { opacity: 1; } }`;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
