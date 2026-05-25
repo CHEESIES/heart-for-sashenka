@@ -13,6 +13,7 @@
       overflow: hidden;
       height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
@@ -76,17 +77,34 @@
       animation: glow 2.5s forwards 4.2s;
     }
 
+    .cat {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      border-radius: 20px;
+      z-index: 200;
+      opacity: 0;
+      animation: fadeInCat 2s forwards 5s;
+    }
+
     @keyframes glow {
       to { opacity: 1; }
     }
 
-    /* Адаптация под телефоны */
+    @keyframes fadeInCat {
+      to { opacity: 1; }
+    }
+
+    
     @media (max-width: 480px) {
       .header { font-size: 10px; top: 12px; }
       .status { font-size: 13.5px; top: 55px; }
       .center-text { font-size: 28px; }
       .heart-container { height: 420px; }
       .word { font-size: 10px; }
+      .cat { width: 100px; bottom: 15px; }
     }
 
     @media (max-width: 360px) {
@@ -103,6 +121,8 @@
   <div class="heart-container" id="heart"></div>
   <div class="center-text">Сашенька</div>
 
+  <img class="cat" src="https://i.pinimg.com/736x/7d/13/74/7d1374409e2e97805276140c23a3f635.jpg" alt="jf">
+
   <script>
     const statusEl = document.getElementById('status');
     const heartEl = document.getElementById('heart');
@@ -111,7 +131,7 @@
       "[system] Инициализация heart.PROTOCOL_v2.0...",
       "> Для вас найдено одно зашифрованное сообщение.",
       "[status] РАСШИФРОВКА СООБЩЕНИЯ...",
-      "[status] Завершена расшифровка heart.PROTOCOL_v2.0",
+      "[status] Завершенна зашифровка heart.PROTOCOL_v2.0",
       "[message] Сашенька как станет грустно позвони мне"
     ];
 
